@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Horizon & Biotech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep:    #06040f;
+      --bg-mid:     #0c0920;
+      --bg-card:    #100d28;
+      --purple:     #7b3fe4;
+      --purple-dim: #3d1f7a;
+      --violet:     #a855f7;
+      --cyan:       #22d3ee;
+      --gold:       #f59e0b;
+      --green:      #22c55e;
+      --text:       #e2dff5;
+      --muted:      #7c7a9e;
+      --border:     rgba(123,63,228,.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCANLINE OVERLAY ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.06) 2px,
+        rgba(0,0,0,.06) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ─── NOISE GRAIN ──────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 9998;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: .025;
+      pointer-events: none;
+    }
+
+    /* ─── NAV ───────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(6,4,15,.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      font-size: .9rem;
+      letter-spacing: .15em;
+      color: var(--text);
+    }
+    .nav-logo span { color: var(--violet); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .3s;
+    }
+    .nav-links a:hover { color: var(--violet); }
+
+    .nav-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: .6rem;
+      letter-spacing: .15em;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      padding: .3rem .8rem;
+      border-radius: 2px;
+      animation: pulse-border 2s infinite;
+    }
+
+    @keyframes pulse-border {
+      0%,100% { border-color: var(--cyan); box-shadow: 0 0 8px rgba(34,211,238,.2); }
+      50%      { border-color: rgba(34,211,238,.4); box-shadow: 0 0 20px rgba(34,211,238,.5); }
+    }
+
+    /* ─── HERO ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    /* animated grid */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(123,63,228,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123,63,228,.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: grid-drift 20s linear infinite;
+    }
+    @keyframes grid-drift {
+      from { background-position: 0 0; }
+      to   { background-position: 60px 60px; }
+    }
+
+    /* radial glow */
+    .hero-glow {
+      position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(ellipse, rgba(123,63,228,.18) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-55%);
+      pointer-events: none;
+    }
+
+    /* corner brackets */
+    .corner { position: absolute; width: 32px; height: 32px; }
+    .corner::before, .corner::after { content: ''; position: absolute; background: var(--violet); }
+    .corner::before { width: 100%; height: 2px; top: 0; }
+    .corner::after  { width: 2px; height: 100%; top: 0; }
+    .corner.tl { top: 1.5rem; left: 1.5rem; }
+    .corner.tr { top: 1.5rem; right: 1.5rem; transform: scaleX(-1); }
+    .corner.bl { bottom: 1.5rem; left: 1.5rem; transform: scaleY(-1); }
+    .corner.br { bottom: 1.5rem; right: 1.5rem; transform: scale(-1); }
+
+    .hero-tag {
+      position: relative; z-index: 1;
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      letter-spacing: .25em;
+      color: var(--violet);
+      border: 1px solid var(--purple-dim);
+      padding: .45rem 1.2rem;
+      border-radius: 2px;
+      margin-bottom: 2.5rem;
+      background: rgba(123,63,228,.08);
+    }
+    .dot {
+      width: 7px; height: 7px;
+      background: var(--violet);
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+    .hero h1 {
+      position: relative; z-index: 1;
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 900;
+      letter-spacing: .08em;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 80px rgba(123,63,228,.5);
+      animation: hero-in .8s ease both;
+    }
+    @keyframes hero-in { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+
+    .hero-sub {
+      position: relative; z-index: 1;
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(.7rem, 2vw, 1rem);
+      letter-spacing: .45em;
+      color: var(--violet);
+      margin-top: .6rem;
+      margin-bottom: 1.2rem;
+      animation: hero-in .8s .15s ease both;
+    }
+
+    .hero-divider {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero-divider::before, .hero-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--purple-dim));
+    }
+    .hero-divider::after { background: linear-gradient(90deg, var(--purple-dim), transparent); }
+    .diamond { width: 8px; height: 8px; background: var(--violet); transform: rotate(45deg); }
+
+    .hero-desc {
+      position: relative; z-index: 1;
+      max-width: 560px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 3rem;
+      animation: hero-in .8s .3s ease both;
+    }
+
+    .hero-cta {
+      position: relative; z-index: 1;
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      animation: hero-in .8s .45s ease both;
+    }
+
+    .btn-primary {
+      font-family: 'Orbitron', monospace;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      padding: 1rem 2.2rem;
+      background: var(--purple);
+      color: #fff;
+      border: none; cursor: pointer;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: background .3s, box-shadow .3s;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background: var(--violet);
+      box-shadow: 0 0 30px rgba(168,85,247,.5);
+    }
+
+    .btn-ghost {
+      font-family: 'Orbitron', monospace;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      padding: 1rem 2.2rem;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: color .3s, border-color .3s;
+      text-decoration: none;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--violet); }
+
+    /* ─── STATS BAR ─────────────────────────────────────── */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item {
+      padding: 2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .stat-num span { color: var(--violet); }
+    .stat-label {
+      font-size: .7rem;
+      letter-spacing: .15em;
+      color: var(--muted);
+      margin-top: .4rem;
+      text-transform: uppercase;
+    }
+
+    /* ─── SECTIONS ──────────────────────────────────────── */
+    section { padding: 6rem 4rem; }
+
+    .section-label {
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      letter-spacing: .3em;
+      color: var(--violet);
+      margin-bottom: 1rem;
+    }
+    .section-label::before { content: '// '; }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── MISSIONS ──────────────────────────────────────── */
+    #missions { background: var(--bg-mid); }
+
+    .missions-grid { display: flex; flex-direction: column; gap: 1.5rem; max-width: 860px; margin: 0 auto; }
+
+    .mission-card {
+      display: flex; align-items: flex-start; gap: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .mission-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      transition: opacity .3s;
+    }
+    .mission-card.m1::before { background: linear-gradient(90deg, var(--purple), var(--violet)); }
+    .mission-card.m2::before { background: linear-gradient(90deg, var(--gold), #fbbf24); opacity: .8; }
+    .mission-card.m3::before { background: linear-gradient(90deg, var(--green), #4ade80); opacity: .8; }
+    .mission-card:hover { border-color: var(--purple); box-shadow: 0 0 30px rgba(123,63,228,.15); }
+
+    .mission-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      min-width: 60px;
+    }
+    .mission-card.m1 .mission-num { color: var(--violet); }
+    .mission-card.m2 .mission-num { color: var(--gold); }
+    .mission-card.m3 .mission-num { color: var(--green); }
+
+    .mission-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: .55rem;
+      letter-spacing: .15em;
+      padding: .25rem .6rem;
+      border-radius: 2px;
+      margin-top: .4rem;
+      display: inline-block;
+    }
+    .badge-purple { background: rgba(123,63,228,.25); color: var(--violet); border: 1px solid var(--purple-dim); }
+    .badge-gold   { background: rgba(245,158,11,.15); color: var(--gold);   border: 1px solid rgba(245,158,11,.3); }
+    .badge-green  { background: rgba(34,197,94,.15);  color: var(--green);  border: 1px solid rgba(34,197,94,.3); }
+
+    .mission-body h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: .05em;
+      margin-bottom: .6rem;
+    }
+    .mission-body p { color: var(--muted); line-height: 1.7; font-size: .9rem; margin-bottom: 1rem; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      font-size: .65rem;
+      letter-spacing: .1em;
+      padding: .25rem .7rem;
+      border-radius: 2px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .tag::before { content: '• '; }
+
+    /* ─── ABOUT ─────────────────────────────────────────── */
+    #about {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      height: 400px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-visual-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(123,63,228,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(123,63,228,.08) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .orbit-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(123,63,228,.3);
+    }
+    .orbit-ring:nth-child(2) { width: 200px; height: 200px; animation: spin 12s linear infinite; }
+    .orbit-ring:nth-child(3) { width: 300px; height: 300px; animation: spin 20s linear infinite reverse; border-color: rgba(34,211,238,.2); }
+    .orbit-ring:nth-child(4) { width: 380px; height: 380px; animation: spin 30s linear infinite; border-color: rgba(168,85,247,.15); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .orbit-dot {
+      position: absolute; width: 8px; height: 8px;
+      background: var(--cyan); border-radius: 50%;
+      top: -4px; left: 50%; margin-left: -4px;
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .core-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      color: #fff;
+      text-align: center;
+      z-index: 1;
+      text-shadow: 0 0 40px rgba(123,63,228,.8);
+    }
+    .core-logo small { display: block; font-size: .55rem; letter-spacing: .3em; color: var(--violet); margin-top: .3rem; }
+
+    .features-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .feature {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: border-color .3s;
+    }
+    .feature:hover { border-color: var(--purple); }
+    .feature-icon {
+      font-size: 1.3rem;
+      min-width: 36px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-text h4 {
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      color: #fff;
+      margin-bottom: .3rem;
+    }
+    .feature-text p { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── INFO CARDS ────────────────────────────────────── */
+    #info { background: var(--bg-mid); }
+
+    .info-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+
+    .info-card {
+      padding: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      transition: border-color .3s, transform .3s;
+    }
+    .info-card:hover { border-color: var(--purple); transform: translateY(-4px); }
+
+    .info-card-label {
+      font-family: 'Orbitron', monospace;
+      font-size: .6rem;
+      letter-spacing: .25em;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .info-card-label::before { content: '// '; color: var(--violet); }
+
+    .info-card-value {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* remuneration card */
+    .remun-card {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 2rem;
+      background: rgba(34,197,94,.06);
+      border: 1px solid rgba(34,197,94,.25);
+      border-radius: 3px;
+      margin-bottom: 1.5rem;
+    }
+    .remun-icon { font-size: 2rem; }
+    .remun-title {
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      letter-spacing: .1em;
+      color: var(--green);
+      margin-bottom: .4rem;
+    }
+    .remun-desc { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+    .remun-desc strong { color: var(--text); font-weight: 600; }
+
+    /* droid card */
+    .droid-card {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      padding: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      margin-bottom: 1.5rem;
+    }
+    .droid-icon { font-size: 2rem; }
+    .droid-title {
+      font-family: 'Orbitron', monospace;
+      font-size: .85rem;
+      letter-spacing: .1em;
+      color: #fff;
+      margin-bottom: .4rem;
+    }
+    .droid-desc { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+
+    /* ─── RECRUITMENT ───────────────────────────────────── */
+    #recrutement { background: var(--bg-deep); }
+
+    .recruit-wrapper {
+      max-width: 780px; margin: 0 auto;
+    }
+
+    .recruit-notice {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.5rem 2rem;
+      background: rgba(123,63,228,.1);
+      border: 1px solid var(--purple-dim);
+      border-radius: 3px;
+      margin-bottom: 3rem;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .recruit-notice-icon { font-size: 1.5rem; }
+    .recruit-notice strong { color: var(--violet); }
+
+    .recruit-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .form-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(123,63,228,.06);
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .form-header-dot { width: 8px; height: 8px; background: var(--violet); border-radius: 50%; animation: blink 1.4s infinite; }
+    .form-header-title {
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem;
+      letter-spacing: .2em;
+      color: var(--violet);
+    }
+
+    .form-body { padding: 2.5rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.5rem; }
+
+    .form-label {
+      display: block;
+      font-family: 'Orbitron', monospace;
+      font-size: .6rem;
+      letter-spacing: .2em;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+    .form-label::before { content: '// '; color: var(--purple); }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-size: .9rem;
+      padding: .85rem 1.1rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(123,63,228,.12);
+    }
+    .form-select { cursor: pointer; }
+    .form-select option { background: var(--bg-mid); }
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+    .form-footer {
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(123,63,228,.04);
+    }
+
+    .form-note {
+      font-size: .75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .btn-submit {
+      font-family: 'Orbitron', monospace;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      padding: 1rem 2.5rem;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: background .3s, box-shadow .3s;
+      position: relative;
+    }
+    .btn-submit:hover {
+      background: var(--violet);
+      box-shadow: 0 0 30px rgba(168,85,247,.4);
+    }
+    .btn-submit:disabled {
+      opacity: .5; cursor: not-allowed;
+      background: var(--purple-dim);
+    }
+
+    /* Status messages */
+    .form-status {
+      margin-top: 1.5rem;
+      padding: 1.2rem 1.5rem;
+      border-radius: 3px;
+      font-family: 'Orbitron', monospace;
+      font-size: .7rem;
+      letter-spacing: .1em;
+      display: none;
+    }
+    .form-status.success {
+      display: block;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.3);
+      color: var(--green);
+    }
+    .form-status.error {
+      display: block;
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.3);
+      color: #f87171;
+    }
+    .form-status.loading {
+      display: block;
+      background: rgba(123,63,228,.1);
+      border: 1px solid var(--purple-dim);
+      color: var(--violet);
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-left {
+      font-family: 'Orbitron', monospace;
+      font-size: .7rem;
+      letter-spacing: .15em;
+      color: var(--muted);
+    }
+    .footer-left span { color: var(--text); }
+    .footer-right {
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      color: var(--muted);
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--purple-dim); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--purple); }
+
+    /* ─── SCROLL PROGRESS BAR ──────────────────────────── */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; z-index: 10000;
+      height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--purple), var(--violet), var(--cyan));
+      transition: width .1s linear;
+      pointer-events: none;
+    }
+
+    /* ─── LOADING SCREEN ───────────────────────────────── */
+    #loader {
+      position: fixed; inset: 0; z-index: 99999;
+      background: var(--bg-deep);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.5rem;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem; font-weight: 900;
+      color: #fff; letter-spacing: .1em;
+      text-shadow: 0 0 40px rgba(123,63,228,.8);
+    }
+    .loader-logo span { color: var(--violet); }
+    .loader-bar-wrap {
+      width: 200px; height: 2px;
+      background: rgba(123,63,228,.2);
+      border-radius: 2px; overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--purple), var(--violet));
+      animation: load-fill 1.8s ease forwards;
+    }
+    @keyframes load-fill { to { width: 100%; } }
+    .loader-text {
+      font-family: 'Orbitron', monospace;
+      font-size: .6rem; letter-spacing: .3em;
+      color: var(--muted);
+      animation: blink 1s infinite;
+    }
+
+    /* ─── PARTICLES ────────────────────────────────────── */
+    #particles {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: var(--violet);
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-particle linear infinite;
+    }
+    @keyframes float-particle {
+      0%   { opacity: 0; transform: translateY(100vh) scale(0); }
+      10%  { opacity: .6; }
+      90%  { opacity: .3; }
+      100% { opacity: 0; transform: translateY(-10vh) scale(1.5); }
+    }
+
+    /* ─── HAMBURGER ────────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; padding: .5rem;
+      background: none; border: none;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--text);
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: rgba(6,4,15,.97);
+      backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem; letter-spacing: .25em;
+      color: var(--muted); text-decoration: none;
+      transition: color .3s;
+    }
+    .mobile-menu a:hover { color: var(--violet); }
+    .mobile-menu a.discord-link { color: var(--violet); }
+
+    /* ─── BACK TO TOP ──────────────────────────────────── */
+    #back-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+      width: 44px; height: 44px;
+      background: var(--purple);
+      border: 1px solid var(--violet);
+      color: #fff; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+      opacity: 0; visibility: hidden;
+      transition: opacity .3s, visibility .3s, background .3s;
+    }
+    #back-top.visible { opacity: 1; visibility: visible; }
+    #back-top:hover { background: var(--violet); }
+
+    /* ─── POPUP BIENVENUE ──────────────────────────────── */
+    #welcome-popup {
+      position: fixed; inset: 0; z-index: 9000;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(6,4,15,.85);
+      backdrop-filter: blur(8px);
+      opacity: 0; visibility: hidden;
+      transition: opacity .4s, visibility .4s;
+    }
+    #welcome-popup.show { opacity: 1; visibility: visible; }
+    .popup-box {
+      background: var(--bg-card);
+      border: 1px solid var(--purple);
+      border-radius: 4px;
+      padding: 2.5rem;
+      max-width: 480px; width: 90%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 60px rgba(123,63,228,.3);
+      animation: popup-in .4s ease;
+    }
+    @keyframes popup-in { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
+    .popup-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: none; border: none;
+      color: var(--muted); font-size: 1.2rem;
+      cursor: pointer; transition: color .3s;
+    }
+    .popup-close:hover { color: var(--violet); }
+    .popup-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem; font-weight: 700;
+      color: #fff; letter-spacing: .08em;
+      margin-bottom: .8rem;
+    }
+    .popup-desc { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+    /* ─── FAQ ──────────────────────────────────────────── */
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      margin-bottom: .8rem;
+      overflow: hidden;
+      transition: border-color .3s;
+    }
+    .faq-item:hover { border-color: var(--purple); }
+    .faq-q {
+      width: 100%; text-align: left;
+      padding: 1.2rem 1.5rem;
+      background: none; border: none;
+      color: var(--text);
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem; letter-spacing: .08em;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-q .faq-arrow { transition: transform .3s; color: var(--violet); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+      color: var(--muted); font-size: .88rem; line-height: 1.7;
+      padding: 0 1.5rem;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.2rem; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────── */
+    @media(max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 4rem 1.5rem; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      #about { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .missions-grid { padding: 0 .5rem; }
+      .mission-card { flex-direction: column; gap: 1rem; }
+      .hero h1 { font-size: clamp(2.5rem, 15vw, 5rem); }
+      .hero-sub { letter-spacing: .15em; font-size: .7rem; }
+      .hero-cta { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; text-align: center; clip-path: none; border-radius: 2px; }
+      .about-visual { height: 260px; }
+      .orbit-ring:nth-child(3), .orbit-ring:nth-child(4) { display: none; }
+      .remun-card, .droid-card { flex-direction: column; gap: .8rem; }
+      .recruit-wrapper { padding: 0 .5rem; }
+      .form-footer { flex-direction: column; gap: 1rem; align-items: stretch; text-align: center; }
+      .btn-submit { clip-path: none; border-radius: 2px; width: 100%; }
+      #fonctionnement div[style*="grid-template-columns:repeat(2,1fr)"] { grid-template-columns: 1fr !important; }
+      .corner { display: none; }
+      .stat-num { font-size: 1.4rem; }
+      #back-top { bottom: 1rem; right: 1rem; }
+      .team-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2,1fr); }
+      .discord-card { flex-direction: column; text-align: center; }
+      .discord-info { flex-direction: column; }
+    }
+
+    @media(max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .hero h1 { font-size: clamp(2rem, 18vw, 3.5rem); }
+      nav { padding: .8rem 1rem; }
+      .nav-logo { font-size: .7rem; }
+    }
+    /* ─── FAQ ───────────────────────────────────────────── */
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      transition: border-color .3s;
+    }
+    .faq-item:hover { border-color: var(--purple); }
+    .faq-q {
+      width: 100%; background: none; border: none;
+      padding: 1.4rem 1.8rem;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; color: var(--text);
+      font-family: 'Orbitron', monospace;
+      font-size: .75rem; letter-spacing: .1em;
+      text-align: left;
+    }
+    .faq-q span { color: var(--violet); font-size: 1.1rem; transition: transform .3s; }
+    .faq-item.open .faq-q span { transform: rotate(45deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+      padding: 0 1.8rem;
+      color: var(--muted); font-size: .9rem; line-height: 1.8;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 1.8rem 1.4rem; }
+
+    /* ─── TEAM ──────────────────────────────────────────── */
+    .team-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: border-color .3s, transform .3s;
+    }
+    .team-card:hover { border-color: var(--purple); transform: translateY(-4px); }
+    .team-avatar {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--violet));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3rem; font-weight: 700; color: #fff;
+      margin: 0 auto 1rem;
+      border: 2px solid var(--purple-dim);
+    }
+    .team-name {
+      font-family: 'Orbitron', monospace;
+      font-size: .8rem; letter-spacing: .1em;
+      color: #fff; margin-bottom: .4rem;
+    }
+    .team-role {
+      font-size: .75rem; color: var(--violet);
+      letter-spacing: .1em;
+    }
+
+    /* ─── GALLERY ───────────────────────────────────────── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .gallery-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      transition: border-color .3s, transform .3s;
+      cursor: pointer;
+    }
+    .gallery-item:hover { border-color: var(--purple); transform: scale(1.02); }
+    .gallery-placeholder {
+      font-size: 2.5rem;
+      opacity: .4;
+    }
+    .gallery-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(6,4,15,.9));
+      padding: .8rem;
+      font-family: 'Orbitron', monospace;
+      font-size: .6rem; letter-spacing: .15em;
+      color: var(--muted);
+    }
+
+    /* ─── DISCORD MEMBERS ───────────────────────────────── */
+    .discord-card {
+      background: linear-gradient(135deg, rgba(88,101,242,.15), rgba(123,63,228,.1));
+      border: 1px solid rgba(88,101,242,.4);
+      border-radius: 3px;
+      padding: 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .discord-info { display: flex; align-items: center; gap: 1.5rem; }
+    .discord-logo {
+      width: 60px; height: 60px;
+      background: #5865F2;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+    }
+    .discord-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem; font-weight: 700; color: #fff;
+      margin-bottom: .4rem;
+    }
+    .discord-members {
+      font-size: .85rem; color: var(--muted);
+    }
+    .discord-members span { color: var(--green); font-weight: 600; }
+
+  </style>
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scroll-progress"></div>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-logo">H<span>&B</span></div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+    <div class="loader-text">INITIALISATION DU SYSTÈME...</div>
+  </div>
+
+  <!-- PARTICLES -->
+  <div id="particles"></div>
+
+  <!-- BACK TO TOP -->
+  <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- WELCOME POPUP -->
+  <div id="welcome-popup">
+    <div class="popup-box">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <div style="font-size:2rem;margin-bottom:1rem;">🚀</div>
+      <div class="popup-title">BIENVENUE SUR HORIZON & BIOTECH</div>
+      <p class="popup-desc">Vous entrez dans la zone opérationnelle. Rejoignez notre serveur Discord pour postuler et rejoindre l'équipe.</p>
+      <a href="https://discord.gg/yUKpUMdRXm" target="_blank" class="btn-primary" style="display:inline-block;text-decoration:none;margin-bottom:1rem;">🎮 &nbsp;REJOINDRE LE DISCORD</a><br>
+      <button onclick="closePopup()" style="background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;margin-top:.5rem;font-family:'Exo 2',sans-serif;">Continuer sans rejoindre</button>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#missions" onclick="closeMobile()">Missions</a>
+    <a href="#about" onclick="closeMobile()">À Propos</a>
+    <a href="#info" onclick="closeMobile()">Système</a>
+    <a href="#fonctionnement" onclick="closeMobile()">Fonctionnement</a>
+    <a href="#equipe" onclick="closeMobile()">Équipe</a>
+    <a href="#faq" onclick="closeMobile()">FAQ</a>
+    <a href="#recrutement" onclick="closeMobile()">Recrutement</a>
+    <a href="https://discord.gg/yUKpUMdRXm" target="_blank" class="discord-link">Discord ↗</a>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      HORIZON<span> & BIOTECH</span>™
+      <div style="font-size:.55rem;letter-spacing:.18em;color:var(--muted);margin-top:.25rem;font-weight:400;">FlashBack FA</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#missions">Missions</a></li>
+      <li><a href="#about">À Propos</a></li>
+      <li><a href="#info">Système</a></li>
+      <li><a href="#fonctionnement">Fonctionnement</a></li>
+      <li><a href="#equipe">Équipe</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#recrutement">Recrutement</a></li>
+      <li><a href="https://discord.gg/yUKpUMdRXm" target="_blank" style="color:var(--violet);">Discord ↗</a></li>
+    </ul>
+    <div class="nav-badge">RUN ACTIF</div>
+    <button class="hamburger" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <div class="hero-tag"><span class="dot"></span>RUN ACTIF — DÉPLOIEMENT LUNAIRE</div>
+    <h1>HORIZON</h1>
+    <div style="font-family:'Orbitron',monospace;font-size:clamp(.8rem,2vw,1.1rem);letter-spacing:.2em;color:var(--violet);margin-top:.4rem;margin-bottom:-.6rem;position:relative;z-index:1;">& BIOTECH</div>
+    <div class="hero-sub"> &nbsp; </div>
+    <div class="hero-divider"><div class="diamond"></div></div>
+    <p class="hero-desc">
+      Vous êtes déployés sur la surface lunaire au contrôle de robots téléopérés.<br>
+      Trois objectifs critiques à accomplir. La mission ne tolère aucun échec.
+    </p>
+    <div class="hero-cta">
+      <a href="#recrutement" class="btn-primary">POSTULER MAINTENANT</a>
+      <a href="#missions" class="btn-ghost">VOIR LES MISSIONS</a>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num" data-target="3" data-suffix="+">03<span>+</span></div>
+      <div class="stat-label">Missions actives</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span>∞</span></div>
+      <div class="stat-label">Runs disponibles</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="100" data-suffix="%">100<span>%</span></div>
+      <div class="stat-label">Rémunération assurée</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num"><span>☾</span></div>
+      <div class="stat-label">Base lunaire</div>
+    </div>
+  </div>
+
+  <!-- MISSIONS -->
+  <section id="missions">
+    <div style="text-align:center; margin-bottom:3rem;">
+      <div class="section-label" style="justify-content:center;display:flex;">Objectifs de Mission</div>
+      <h2 class="section-title">VOS TROIS DIRECTIVES</h2>
+      <p class="section-desc" style="margin:0 auto;">Chaque run comprend trois objectifs critiques à exécuter avec précision depuis votre station de téléopération.</p>
+    </div>
+    <div class="missions-grid">
+      <div class="mission-card m1">
+        <div>
+          <div class="mission-num">01</div>
+          <div class="mission-badge badge-purple">COLLECTE</div>
+        </div>
+        <div class="mission-body">
+          <h3>EXTRACTION DE ROCHES LUNAIRES</h3>
+          <p>Pilotez votre robot pour localiser et récupérer les échantillons de roches lunaires sur les zones de collecte désignées.</p>
+          <div class="tags">
+            <span class="tag">Zone balisée</span>
+            <span class="tag">Téléopération requise</span>
+            <span class="tag">Quota à atteindre</span>
+          </div>
+        </div>
+      </div>
+      <div class="mission-card m2">
+        <div>
+          <div class="mission-num">02</div>
+          <div class="mission-badge badge-gold">RÉPARATION</div>
+        </div>
+        <div class="mission-body">
+          <h3>RÉPARATION DES ANTENNES</h3>
+          <p>Nos antennes de communication sur la base lunaire sont hors service. Utilisez votre robot pour accéder aux structures et rétablir les transmissions.</p>
+          <div class="tags">
+            <span class="tag">Base lunaire</span>
+            <span class="tag">Accès structure requis</span>
+            <span class="tag">Précision maximale</span>
+          </div>
+        </div>
+      </div>
+      <div class="mission-card m3">
+        <div>
+          <div class="mission-num">03</div>
+          <div class="mission-badge badge-green">MAINTENANCE</div>
+        </div>
+        <div class="mission-body">
+          <h3>REMISE EN MARCHE DES MACHINES</h3>
+          <p>Les machines de production à l'intérieur de la base sont en panne. Votre robot interviendra sur chaque unité défaillante pour relancer les systèmes vitaux.</p>
+          <div class="tags">
+            <span class="tag">Systèmes critiques</span>
+            <span class="tag">Intervention interne</span>
+            <span class="tag">Diagnostic requis</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual">
+      <div class="about-visual-grid"></div>
+      <div class="orbit-ring"><div class="orbit-dot"></div></div>
+      <div class="orbit-ring"></div>
+      <div class="orbit-ring"></div>
+      <div class="core-logo">H&B<small>HORIZON & BIOTECH</small></div>
+    </div>
+    <div>
+      <div class="section-label">À Propos</div>
+      <h2 class="section-title">UNE ENTREPRISE AU CŒUR DU FUTUR</h2>
+      <p class="section-desc">
+        Horizon & Biotech est une corporation futuriste spécialisée dans les opérations en environnements extrêmes. Notre technologie de téléopération droid permet à des agents qualifiés d'intervenir depuis la Terre sur des infrastructures lunaires critiques.
+      </p>
+      <div class="features-list">
+        <div class="feature">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-text">
+            <h4>TÉLÉOPÉRATION DROID</h4>
+            <p>Contrôlez un robot de pointe depuis notre station de commande. Formation assurée avant déploiement.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌙</div>
+          <div class="feature-text">
+            <h4>SURFACE LUNAIRE</h4>
+            <p>Opérations sur site réel. Extraction, réparation, maintenance — des missions à fort impact.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <h4>RUN INTERACTIF</h4>
+            <p>Format dynamique et immersif. Chaque run est unique, chaque agent est essentiel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section id="info">
+    <div style="text-align:center; margin-bottom:3rem;">
+      <div class="section-label" style="display:flex;justify-content:center;">Système & Rémunération</div>
+      <h2 class="section-title">CE QUE VOUS DEVEZ SAVOIR</h2>
+    </div>
+
+    <div style="max-width:860px;margin:0 auto;">
+      <div class="remun-card">
+        <div class="remun-icon">💰</div>
+        <div>
+          <div class="remun-title">RÉMUNÉRATION ASSURÉE</div>
+          <div class="remun-desc">Chaque run accompli est <strong>rémunéré</strong>. Les détails vous seront communiqués lors de votre prise en charge.</div>
+        </div>
+      </div>
+      <div class="droid-card">
+        <div class="droid-icon">🤖</div>
+        <div>
+          <div class="droid-title">SYSTÈME DE TÉLÉOPÉRATION DROID</div>
+          <div class="droid-desc">Chaque opérateur contrôle un robot depuis la station de commande. Formation assurée avant déploiement.</div>
+        </div>
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-label">FORMAT</div>
+          <div class="info-card-value">Run Interactif</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">OBJECTIFS</div>
+          <div class="info-card-value">3 au choix</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">LIEU</div>
+          <div class="info-card-value">Base Lunaire</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FONCTIONNEMENT -->
+  <section id="fonctionnement" style="background:var(--bg-mid);">
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="section-label">Guide Opérateur</div>
+      <h2 class="section-title">FORMATION & FONCTIONNEMENT</h2>
+      <p class="section-desc">Tout ce que vous devez savoir avant votre premier déploiement sur la base lunaire.</p>
+
+      <!-- GRADES -->
+      <div style="margin-bottom:3rem;">
+        <div style="font-family:'Orbitron',monospace;font-size:.75rem;letter-spacing:.2em;color:var(--violet);margin-bottom:1.2rem;">// LES GRADES</div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:2rem;">
+          <p style="color:var(--muted);margin-bottom:1.2rem;font-size:.9rem;">L'entreprise se compose de <strong style="color:var(--text);">8 grades différents</strong> :</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;">
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">01</span><span style="font-size:.85rem;color:var(--text);">Technicien Stagiaire</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">02</span><span style="font-size:.85rem;color:var(--text);">Technicien</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">03</span><span style="font-size:.85rem;color:var(--text);">Technicien Avancé</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">04</span><span style="font-size:.85rem;color:var(--text);">Ingénieur</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">05</span><span style="font-size:.85rem;color:var(--text);">Ingénieur Avancé</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">06</span><span style="font-size:.85rem;color:var(--text);">Ingénieur Senior</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">07</span><span style="font-size:.85rem;color:var(--text);">Responsable Technicien</span></div>
+            <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;background:rgba(123,63,228,.06);border:1px solid var(--border);border-radius:2px;"><span style="font-family:'Orbitron',monospace;font-size:.6rem;color:var(--purple);min-width:24px;">08</span><span style="font-size:.85rem;color:var(--text);">Responsable Ingénieur</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÉTAPES -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+        <div class="mission-card m1" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--violet);min-width:40px;">01</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">PRISE DE SERVICE</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">Votre prise de service se fait à l'entrée au niveau du bureau.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m2" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--gold);min-width:40px;">02</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">LE VESTIAIRE</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">Le retrait de votre équipement s'effectue après avoir franchi le premier sas sur la gauche. Sélectionnez votre tenue selon votre grade.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m3" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--green);min-width:40px;">03</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">SALLE DE CONTRÔLE</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">La salle de contrôle vous permet d'accéder à votre poste de travail sur l'ordinateur dédié.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m1" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--violet);min-width:40px;">04</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">POINT DE RÉCOLTE — MINERAIS</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">La récolte de minerai se passe dans les sous-sols. Vous récupérez des <strong style="color:var(--violet);">extraits de roche lunaire</strong> à ramener pour transformation.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m2" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--gold);min-width:40px;">05</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">TRANSFORMATION DE MINERAIS</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">Une fois votre récolte réalisée, la transformation s'effectue dans les garages. Elle vous permet de récupérer des <strong style="color:var(--gold);">Horizon Crédits</strong>.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m3" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--green);min-width:40px;">06</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">RÉPARATION DE L'ANTENNE</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">3 points de réparation sont disponibles sur l'antenne. Ils vous fournissent des <strong style="color:var(--green);">pièces détachées</strong> nécessaires à la transformation.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m1" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--violet);min-width:40px;">07</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">RÉPARATION DE LA MACHINE</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">2 points sont à votre disposition au-dessus de la parabole. Vous récupérez des <strong style="color:var(--violet);">composants électroniques</strong>.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m2" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--gold);min-width:40px;">08</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">TRANSFORMATION COMPOSANTS & PIÈCES DÉTACHÉES</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">La transformation des composants électroniques et pièces détachées vous permet également de récupérer des <strong style="color:var(--gold);">Horizon Crédits</strong>.</p></div>
+          </div>
+        </div>
+
+        <div class="mission-card m3" style="flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <div style="font-family:'Orbitron',monospace;font-size:1.3rem;font-weight:700;color:var(--green);min-width:40px;">09</div>
+            <div><div style="font-family:'Orbitron',monospace;font-size:.95rem;font-weight:600;color:#fff;letter-spacing:.05em;">REVENTE DES HORIZON CRÉDITS</div>
+            <p style="color:var(--muted);font-size:.85rem;margin-top:.4rem;line-height:1.7;">La revente des crédits s'effectue à l'extérieur de la salle de contrôle.</p>
+            <div style="margin-top:.8rem;display:inline-flex;align-items:center;gap:.6rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:.5rem 1rem;border-radius:2px;">
+              <span style="font-size:1.1rem;">💰</span>
+              <span style="font-family:'Orbitron',monospace;font-size:.8rem;color:var(--green);font-weight:700;">1 Crédit = 8$</span>
+            </div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+
+  <!-- RECRUITMENT -->
+  <section id="recrutement">
+    <div class="recruit-wrapper" style="text-align:center;">
+      <div class="section-label" style="display:flex;justify-content:center;">Recrutement</div>
+      <h2 class="section-title">REJOINDRE LA MISSION</h2>
+      <p class="section-desc" style="margin:0 auto 3rem;">Les candidatures se font directement sur notre serveur Discord. Rejoignez-nous et ouvrez un ticket dans le canal <strong style="color:var(--violet);">#recrutement</strong>.</p>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+        <div class="recruit-notice" style="max-width:580px;width:100%;">
+          <span class="recruit-notice-icon">🚀</span>
+          <span>Notre équipe vous prendra en charge directement sur le serveur après votre arrivée.</span>
+        </div>
+        <a href="https://discord.gg/yUKpUMdRXm" target="_blank" class="btn-primary" style="font-size:.85rem;padding:1.2rem 3rem;text-decoration:none;display:inline-block;">
+          🎮 &nbsp;REJOINDRE LE DISCORD
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉQUIPE -->
+  <section id="equipe" style="background:var(--bg-deep);">
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="section-label">Direction</div>
+      <h2 class="section-title">L'ÉQUIPE DE DIRECTION</h2>
+      <p class="section-desc">Les responsables qui supervisent les opérations sur la base lunaire.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">RI</div>
+          <div class="team-name">RESPONSABLE INGÉNIEUR</div>
+          <div class="team-role">// Direction Technique</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">RT</div>
+          <div class="team-name">RESPONSABLE TECHNICIEN</div>
+          <div class="team-role">// Supervision Terrain</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">IS</div>
+          <div class="team-name">INGÉNIEUR SENIOR</div>
+          <div class="team-role">// Chef de Mission</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIE -->
+  <section id="galerie" style="background:var(--bg-mid);">
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="section-label">Aperçu</div>
+      <h2 class="section-title">GALERIE — BASE LUNAIRE</h2>
+      <p class="section-desc">Aperçu des installations et des opérations sur le terrain.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item"><div class="gallery-placeholder">🌙</div><div class="gallery-label">SURFACE LUNAIRE</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">🤖</div><div class="gallery-label">DROID OPÉRATIONNEL</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">⚙️</div><div class="gallery-label">SALLE DE CONTRÔLE</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">🪨</div><div class="gallery-label">EXTRACTION MINERAIS</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">📡</div><div class="gallery-label">RÉPARATION ANTENNE</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">🏭</div><div class="gallery-label">ZONE DE TRANSFORMATION</div></div>
+      </div>
+      <p style="color:var(--muted);font-size:.75rem;text-align:center;margin-top:1.5rem;font-style:italic;">— Screenshots à venir lors du prochain déploiement —</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background:var(--bg-deep);">
+    <div style="max-width:760px;margin:0 auto;">
+      <div class="section-label">Aide</div>
+      <h2 class="section-title">QUESTIONS FRÉQUENTES</h2>
+      <p class="section-desc">Tout ce que vous devez savoir avant de rejoindre la mission.</p>
+      <div class="faq-item">
+        <button class="faq-q">Faut-il de l'expérience pour postuler ? <span>+</span></button>
+        <div class="faq-a">Non, aucune expérience n'est requise. Une formation complète est assurée avant votre premier déploiement sur la base lunaire.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Comment se déroule le recrutement ? <span>+</span></button>
+        <div class="faq-a">Rejoignez notre serveur Discord et ouvrez un ticket dans le canal #recrutement. Notre équipe vous prendra en charge rapidement.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Quelle est la rémunération ? <span>+</span></button>
+        <div class="faq-a">Chaque run accompli est rémunéré. Les Horizon Crédits récoltés sont revendables à raison de 1 crédit = 8$. Les détails vous seront communiqués lors de votre prise en charge.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Quelles sont les disponibilités requises ? <span>+</span></button>
+        <div class="faq-a">Le format Run Interactif vous permet de participer selon vos disponibilités. Aucune obligation de présence fixe n'est requise.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Comment évolue-t-on dans les grades ? <span>+</span></button>
+        <div class="faq-a">L'évolution se fait selon votre implication, votre sérieux et vos performances lors des missions. De Technicien Stagiaire à Responsable Ingénieur, 8 grades vous attendent.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Combien de missions peut-on effectuer par session ? <span>+</span></button>
+        <div class="faq-a">Vous pouvez choisir parmi les 3 objectifs disponibles à chaque run. Le nombre de sessions n'est pas limité.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCORD MEMBRES -->
+  <section style="background:var(--bg-mid);padding:3rem 4rem;">
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="discord-card">
+        <div class="discord-info">
+          <div class="discord-logo">💬</div>
+          <div>
+            <div class="discord-name">HORIZON & BIOTECH — SERVEUR DISCORD</div>
+            <div class="discord-members"> • <span id="discord-count">Rejoignez-nous ↗</span></div>
+          </div>
+        </div>
+        <a href="https://discord.gg/yUKpUMdRXm" target="_blank" class="btn-primary" style="text-decoration:none;">🎮 &nbsp;REJOINDRE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left"><span>HORIZON & BIOTECH</span>™ — Tous droits réservés</div>
+    <div class="footer-right">LUNA-RUN // OPERATION TERRAIN</div>
+  </footer>
+
+  <script>
+    // ─── WEBHOOK DISCORD ────────────────────────────────────
+    // ⚠️ REMPLACEZ CETTE URL PAR VOTRE VRAI WEBHOOK DISCORD
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1486471535769292843/HprLcbtdykLU_ufv_STNoi0Uqt26jv9b7V1ZtBsZ9pwZA87o-cwy-4S5yYO7rMJwM37b";
+
+    async function submitForm() {
+      const nomrp    = document.getElementById('f-nomrp').value.trim();
+      const id       = document.getElementById('f-id').value.trim();
+      const phone    = document.getElementById('f-phone').value.trim();
+      const poste    = document.getElementById('f-poste').value.trim();
+      const mission  = document.getElementById('f-mission').value;
+      const motiv    = document.getElementById('f-motivation').value.trim();
+      const statusEl = document.getElementById('form-status');
+      const btn      = document.getElementById('btn-submit');
+
+      if (!nomrp || !id) {
+        statusEl.className = 'form-status error';
+        statusEl.textContent = '⚠ ERREUR — Nom RP et ID obligatoires.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'TRANSMISSION EN COURS...';
+      statusEl.className = 'form-status loading';
+      statusEl.textContent = '📡 Envoi de la candidature vers le serveur...';
+
+      const embed = {
+        embeds: [{
+          title: "🚀 NOUVELLE CANDIDATURE — HORIZON & BIOTECH",
+          color: 0x7b3fe4,
+          fields: [
+            { name: "👤 Nom RP",               value: nomrp || "Non renseigné",  inline: true  },
+            { name: "🪪 ID",                    value: id    || "Non renseigné",  inline: true  },
+            { name: "📞 Numéro de téléphone",   value: phone || "Non renseigné",  inline: false },
+            { name: "🎯 Poste visé",            value: poste || "Non renseigné",  inline: false },
+            { name: "🌙 Mission préférée",       value: mission || "Non précisé",  inline: false },
+          ],
+          footer: { text: "Horizon & Biotech™ — Luna-Run // Operation Terrain" },
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(DISCORD_WEBHOOK_URL);
+
+      try {
+        // 1er message : embed avec les infos
+        const res1 = await fetch(proxyUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(embed)
+        });
+        if (!res1.ok) throw new Error('Embed error ' + res1.status);
+
+        // 2ème message : motivations en texte libre (pas de limite)
+        const motivText = `📋 **MOTIVATIONS de ${nomrp || "l'opérateur"} :**\n\n${motiv || "Non renseigné"}`;
+        const res2 = await fetch(proxyUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: motivText })
+        });
+        if (!res2.ok) throw new Error('Motiv error ' + res2.status);
+
+        if (res1.ok && res2.ok) {
+          statusEl.className = 'form-status success';
+          statusEl.textContent = '✅ CANDIDATURE TRANSMISE — Notre équipe vous contactera sur Discord.';
+          document.getElementById('f-nomrp').value = '';
+          document.getElementById('f-id').value = '';
+          document.getElementById('f-phone').value = '';
+          document.getElementById('f-poste').value = '';
+          document.getElementById('f-mission').value = '';
+          document.getElementById('f-motivation').value = '';
+          btn.textContent = 'ENVOYÉE ✓';
+        }
+      } catch(e) {
+        statusEl.className = 'form-status error';
+        statusEl.textContent = '❌ ERREUR DE TRANSMISSION — Configurez votre webhook Discord ou contactez-nous directement sur le serveur.';
+        btn.disabled = false;
+        btn.textContent = 'ENVOYER LA CANDIDATURE';
+      }
+    }
+
+    // ─── LOADER ─────────────────────────────────────────────
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+      }, 2000);
+    });
+
+    // ─── PARTICLES ──────────────────────────────────────────
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+      p.style.animationDuration = (Math.random() * 15 + 8) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.background = Math.random() > 0.5 ? 'var(--violet)' : 'var(--cyan)';
+      particlesContainer.appendChild(p);
+    }
+
+    // ─── SCROLL PROGRESS ────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      const el = document.getElementById('scroll-progress');
+      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+      el.style.width = pct + '%';
+
+      // Back to top
+      const btn = document.getElementById('back-top');
+      btn.style.opacity = window.scrollY > 400 ? '1' : '0';
+      btn.style.pointerEvents = window.scrollY > 400 ? 'auto' : 'none';
+    });
+
+    // ─── STAT COUNTER ───────────────────────────────────────
+    function animateCounter(el, target, suffix = '') {
+      let start = 0;
+      const duration = 1500;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const val = Math.floor(progress * target);
+        el.innerHTML = val + '<span>' + suffix + '</span>';
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    const statsObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const statNums = document.querySelectorAll('.stat-num[data-target]');
+          statNums.forEach(el => {
+            animateCounter(el, parseInt(el.dataset.target), el.dataset.suffix || '');
+          });
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+    const statsBar = document.querySelector('.stats-bar');
+    if (statsBar) statsObserver.observe(statsBar);
+
+    // ─── HAMBURGER MENU ─────────────────────────────────────
+    function toggleMobile() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+      document.querySelector('.hamburger').classList.toggle('open');
+      document.body.style.overflow = document.getElementById('mobile-menu').classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobile() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.querySelector('.hamburger').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ─── WELCOME POPUP ──────────────────────────────────────
+    function closePopup() {
+      document.getElementById('welcome-popup').style.opacity = '0';
+      setTimeout(() => document.getElementById('welcome-popup').style.display = 'none', 400);
+      sessionStorage.setItem('popup-seen', '1');
+    }
+    if (!sessionStorage.getItem('popup-seen')) {
+      setTimeout(() => {
+        const popup = document.getElementById('welcome-popup');
+        popup.style.display = 'flex';
+        setTimeout(() => popup.style.opacity = '1', 50);
+      }, 2500);
+    } else {
+      document.getElementById('welcome-popup').style.display = 'none';
+    }
+
+    // ─── FAQ ────────────────────────────────────────────────
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        document.querySelectorAll('.faq-item').forEach(i => { if (i !== item) i.classList.remove('open'); });
+        item.classList.toggle('open');
+      });
+    });
+
+    // ─── FADE IN ON SCROLL ──────────────────────────────────
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.mission-card, .feature, .info-card, .faq-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity .5s ease, transform .5s ease, border-color .3s, box-shadow .3s';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
