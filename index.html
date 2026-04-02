@@ -730,24 +730,38 @@
       animation: blink 1s infinite;
     }
 
-    /* ─── PARTICLES ────────────────────────────────────── */
+    /* ─── STARS ────────────────────────────────────────── */
     #particles {
       position: fixed; inset: 0; z-index: 0;
       pointer-events: none; overflow: hidden;
     }
     .particle {
       position: absolute;
-      width: 2px; height: 2px;
-      background: var(--violet);
+      background: #fff;
       border-radius: 50%;
       opacity: 0;
-      animation: float-particle linear infinite;
+      animation: twinkle linear infinite;
     }
-    @keyframes float-particle {
-      0%   { opacity: 0; transform: translateY(100vh) scale(0); }
-      10%  { opacity: .6; }
-      90%  { opacity: .3; }
-      100% { opacity: 0; transform: translateY(-10vh) scale(1.5); }
+    @keyframes twinkle {
+      0%   { opacity: 0; transform: scale(0.5); }
+      25%  { opacity: .9; }
+      50%  { opacity: .3; }
+      75%  { opacity: .8; }
+      100% { opacity: 0; transform: scale(1.2); }
+    }
+    .star-shoot {
+      position: absolute;
+      width: 120px; height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.8), rgba(255,255,255,0));
+      opacity: 0;
+      animation: shoot linear infinite;
+      transform-origin: left center;
+    }
+    @keyframes shoot {
+      0%   { opacity: 0; transform: translateX(-100px) rotate(-30deg); }
+      10%  { opacity: 1; }
+      60%  { opacity: 0; }
+      100% { opacity: 0; transform: translateX(120vw) rotate(-30deg); }
     }
 
     /* ─── HAMBURGER ────────────────────────────────────── */
@@ -1028,6 +1042,47 @@
     }
     .discord-members span { color: var(--green); font-weight: 600; }
 
+    /* ─── ACTUALITÉS ────────────────────────────────────── */
+    .news-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+    .news-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color .3s, transform .3s;
+      position: relative;
+    }
+    .news-card:hover { border-color: var(--purple); transform: translateY(-4px); }
+    .news-card-top {
+      height: 6px;
+    }
+    .news-card-top.actif  { background: linear-gradient(90deg, var(--green), #4ade80); }
+    .news-card-top.annonce { background: linear-gradient(90deg, var(--violet), var(--cyan)); }
+    .news-card-top.alerte { background: linear-gradient(90deg, var(--gold), #fbbf24); }
+    .news-body { padding: 1.5rem; }
+    .news-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: .55rem; letter-spacing: .15em;
+      padding: .25rem .7rem; border-radius: 2px;
+      display: inline-block; margin-bottom: .8rem;
+    }
+    .news-badge.actif   { background: rgba(34,197,94,.15); color: var(--green); border: 1px solid rgba(34,197,94,.3); }
+    .news-badge.annonce { background: rgba(168,85,247,.15); color: var(--violet); border: 1px solid rgba(168,85,247,.3); }
+    .news-badge.alerte  { background: rgba(245,158,11,.15); color: var(--gold); border: 1px solid rgba(245,158,11,.3); }
+    .news-title {
+      font-family: 'Orbitron', monospace;
+      font-size: .8rem; font-weight: 600;
+      color: #fff; margin-bottom: .6rem; letter-spacing: .05em;
+    }
+    .news-desc { font-size: .82rem; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+    .news-date {
+      font-family: 'Orbitron', monospace;
+      font-size: .58rem; letter-spacing: .15em; color: var(--muted);
+    }
+    @media(max-width:900px) { .news-grid { grid-template-columns: 1fr; } }
+
   </style>
 </head>
 <body>
@@ -1065,6 +1120,7 @@
     <a href="#missions" onclick="closeMobile()">Missions</a>
     <a href="#about" onclick="closeMobile()">À Propos</a>
     <a href="#info" onclick="closeMobile()">Système</a>
+    <a href="#actualites" onclick="closeMobile()">Actualités</a>
     <a href="#fonctionnement" onclick="closeMobile()">Fonctionnement</a>
     <a href="#equipe" onclick="closeMobile()">Équipe</a>
     <a href="#faq" onclick="closeMobile()">FAQ</a>
@@ -1082,6 +1138,7 @@
       <li><a href="#missions">Missions</a></li>
       <li><a href="#about">À Propos</a></li>
       <li><a href="#info">Système</a></li>
+      <li><a href="#actualites">Actualités</a></li>
       <li><a href="#fonctionnement">Fonctionnement</a></li>
       <li><a href="#equipe">Équipe</a></li>
       <li><a href="#faq">FAQ</a></li>
@@ -1190,6 +1247,48 @@
             <span class="tag">Diagnostic requis</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTUALITÉS -->
+  <section id="actualites" style="background:var(--bg-deep);">
+    <div style="max-width:900px;margin:0 auto;">
+      <div class="section-label">News</div>
+      <h2 class="section-title">ACTUALITÉS & RUNS</h2>
+      <p class="section-desc">Suivez les dernières nouvelles et annonces de la base lunaire.</p>
+      <div class="news-grid">
+
+        <div class="news-card">
+          <div class="news-card-top actif"></div>
+          <div class="news-body">
+            <span class="news-badge actif">🟢 RUN ACTIF</span>
+            <div class="news-title">DÉPLOIEMENT LUNAIRE — RUN EN COURS</div>
+            <p class="news-desc">Un run est actuellement en cours sur la base lunaire. Les opérateurs sont déployés sur les trois objectifs critiques. Rejoignez le Discord pour participer.</p>
+            <div class="news-date">// AVRIL 2026</div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-top annonce"></div>
+          <div class="news-body">
+            <span class="news-badge annonce">📡 ANNONCE</span>
+            <div class="news-title">OUVERTURE DU RECRUTEMENT</div>
+            <p class="news-desc">Horizon & Biotech ouvre ses portes aux nouveaux opérateurs. Formation assurée, rémunération garantie. Postulez dès maintenant via notre serveur Discord.</p>
+            <div class="news-date">// AVRIL 2026</div>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="news-card-top alerte"></div>
+          <div class="news-body">
+            <span class="news-badge alerte">⚠️ MAINTENANCE</span>
+            <div class="news-title">MISE À JOUR DES SYSTÈMES</div>
+            <p class="news-desc">Les systèmes de la base lunaire ont été mis à jour. Nouveaux points de récolte disponibles, amélioration des droids de téléopération.</p>
+            <div class="news-date">// MARS 2026</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1572,17 +1671,33 @@
       }, 2000);
     });
 
-    // ─── PARTICLES ──────────────────────────────────────────
+    // ─── STARS ──────────────────────────────────────────────
     const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 40; i++) {
+    // Étoiles fixes qui scintillent
+    for (let i = 0; i < 120; i++) {
       const p = document.createElement('div');
       p.className = 'particle';
+      const size = Math.random() * 2.5 + .5;
       p.style.left = Math.random() * 100 + 'vw';
-      p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
-      p.style.animationDuration = (Math.random() * 15 + 8) + 's';
-      p.style.animationDelay = (Math.random() * 10) + 's';
-      p.style.background = Math.random() > 0.5 ? 'var(--violet)' : 'var(--cyan)';
+      p.style.top  = Math.random() * 100 + 'vh';
+      p.style.width = p.style.height = size + 'px';
+      p.style.animationDuration = (Math.random() * 4 + 2) + 's';
+      p.style.animationDelay = (Math.random() * 6) + 's';
+      // Couleur : blanc, bleu pâle ou violet pâle
+      const colors = ['#ffffff','#c8d8ff','#e0d0ff','#a8c8ff'];
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      if (size > 1.8) p.style.boxShadow = '0 0 ' + (size*2) + 'px ' + p.style.background;
       particlesContainer.appendChild(p);
+    }
+    // Étoiles filantes
+    for (let i = 0; i < 5; i++) {
+      const s = document.createElement('div');
+      s.className = 'star-shoot';
+      s.style.top  = Math.random() * 60 + 'vh';
+      s.style.left = '0';
+      s.style.animationDuration = (Math.random() * 4 + 3) + 's';
+      s.style.animationDelay = (Math.random() * 15 + 5) + 's';
+      particlesContainer.appendChild(s);
     }
 
     // ─── SCROLL PROGRESS ────────────────────────────────────
