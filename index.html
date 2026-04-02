@@ -973,6 +973,11 @@
       font-size: 1.3rem; font-weight: 700; color: #fff;
       margin: 0 auto 1rem;
       border: 2px solid var(--purple-dim);
+      overflow: hidden;
+    }
+    .team-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover; border-radius: 50%;
     }
     .team-name {
       font-family: 'Orbitron', monospace;
@@ -1006,6 +1011,13 @@
       font-size: 2.5rem;
       opacity: .4;
     }
+    .gallery-item img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0; transition: opacity .3s;
+    }
+    .gallery-item img.loaded { opacity: 1; }
     .gallery-label {
       position: absolute; bottom: 0; left: 0; right: 0;
       background: linear-gradient(transparent, rgba(6,4,15,.9));
@@ -1493,17 +1505,29 @@
       <p class="section-desc">Les responsables qui supervisent les opérations sur la base lunaire.</p>
       <div class="team-grid">
         <div class="team-card">
-          <div class="team-avatar">🤖</div>
+          <div class="team-avatar">
+            <!-- PHOTO : remplace le lien ci-dessous par l'URL de la photo -->
+            <!-- <img src="LIEN_PHOTO_ICI" alt="Patron" onload="this.classList.add('loaded')"> -->
+            🤖
+          </div>
           <div class="team-name">Patron</div>
           <div class="team-role">// Orion Winchester</div>
         </div>
         <div class="team-card">
-          <div class="team-avatar">👾</div>
+          <div class="team-avatar">
+            <!-- PHOTO : remplace le lien ci-dessous par l'URL de la photo -->
+            <!-- <img src="LIEN_PHOTO_ICI" alt="Co-Patron" onload="this.classList.add('loaded')"> -->
+            👾
+          </div>
           <div class="team-name">Co-Patron</div>
           <div class="team-role">// Elio Reacher</div>
         </div>
         <div class="team-card">
-          <div class="team-avatar">🙎🏻‍♀️</div>
+          <div class="team-avatar">
+            <!-- PHOTO : remplace le lien ci-dessous par l'URL de la photo -->
+            <!-- <img src="LIEN_PHOTO_ICI" alt="Directrice Général" onload="this.classList.add('loaded')"> -->
+            🙎🏻‍♀️
+          </div>
           <div class="team-name">Directrice Général</div>
           <div class="team-role">// Angelika Grimes</div>
         </div>
@@ -1518,12 +1542,31 @@
       <h2 class="section-title">GALERIE — BASE LUNAIRE</h2>
       <p class="section-desc">Aperçu des installations et des opérations sur le terrain.</p>
       <div class="gallery-grid">
-        <div class="gallery-item"><div class="gallery-placeholder">🌙</div><div class="gallery-label">SURFACE LUNAIRE</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">🤖</div><div class="gallery-label">DROID OPÉRATIONNEL</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">⚙️</div><div class="gallery-label">SALLE DE CONTRÔLE</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">🪨</div><div class="gallery-label">EXTRACTION MINERAIS</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">📡</div><div class="gallery-label">RÉPARATION ANTENNE</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">🏭</div><div class="gallery-label">ZONE DE TRANSFORMATION</div></div>
+        <div class="gallery-item">
+          <!-- IMAGE : remplace le lien ci-dessous par l'URL du screenshot -->
+          <!-- <img src="LIEN_IMAGE_ICI" alt="Surface Lunaire" onload="this.classList.add('loaded')"> -->
+          <div class="gallery-placeholder">🌙</div><div class="gallery-label">SURFACE LUNAIRE</div>
+        </div>
+        <div class="gallery-item">
+          <!-- <img src="LIEN_IMAGE_ICI" alt="Droid Opérationnel" onload="this.classList.add('loaded')"> -->
+          <div class="gallery-placeholder">🤖</div><div class="gallery-label">DROID OPÉRATIONNEL</div>
+        </div>
+        <div class="gallery-item">
+          <!-- <img src="LIEN_IMAGE_ICI" alt="Salle de Contrôle" onload="this.classList.add('loaded')"> -->
+          <div class="gallery-placeholder">⚙️</div><div class="gallery-label">SALLE DE CONTRÔLE</div>
+        </div>
+        <div class="gallery-item">
+          <!-- <img src="LIEN_IMAGE_ICI" alt="Extraction Minerais" onload="this.classList.add('loaded')"> -->
+          <div class="gallery-placeholder">🪨</div><div class="gallery-label">EXTRACTION MINERAIS</div>
+        </div>
+        <div class="gallery-item">
+          <!-- <img src="LIEN_IMAGE_ICI" alt="Réparation Antenne" onload="this.classList.add('loaded')"> -->
+          <div class="gallery-placeholder">📡</div><div class="gallery-label">RÉPARATION ANTENNE</div>
+        </div>
+        <div class="gallery-item">
+          <!-- <img src="LIEN_IMAGE_ICI" alt="Zone de Transformation" onload="this.classList.add('loaded')"> -->
+          <div class="gallery-placeholder">🏭</div><div class="gallery-label">ZONE DE TRANSFORMATION</div>
+        </div>
       </div>
       <p style="color:var(--muted);font-size:.75rem;text-align:center;margin-top:1.5rem;font-style:italic;">— Screenshots à venir lors du prochain déploiement —</p>
     </div>
