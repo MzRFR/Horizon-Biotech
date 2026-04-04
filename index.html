@@ -1095,6 +1095,17 @@
     }
     @media(max-width:900px) { .news-grid { grid-template-columns: 1fr; } }
 
+    /* ─── PAGE SYSTEM ───────────────────────────────────── */
+    .hero, .stats-bar, section { display: none !important; }
+    .hero.page-active  { display: flex !important; }
+    .stats-bar.page-active { display: grid !important; }
+    section.page-active { display: block !important; }
+    @keyframes page-in {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-active { animation: page-in .35s ease both; }
+
   </style>
 </head>
 <body>
@@ -1129,34 +1140,36 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#missions" onclick="closeMobile()">Missions</a>
-    <a href="#about" onclick="closeMobile()">À Propos</a>
-    <a href="#info" onclick="closeMobile()">Système</a>
-    <a href="#actualites" onclick="closeMobile()">Actualités</a>
-    <a href="#fonctionnement" onclick="closeMobile()">Fonctionnement</a>
-    <a href="#equipe" onclick="closeMobile()">Équipe</a>
-    <a href="#faq" onclick="closeMobile()">FAQ</a>
-    <a href="#recrutement" onclick="closeMobile()">Recrutement</a>
+    <a href="#" onclick="showPage('home');closeMobile();return false;">Accueil</a>
+    <a href="#" onclick="showPage('missions');closeMobile();return false;">Missions</a>
+    <a href="#" onclick="showPage('about');closeMobile();return false;">À Propos</a>
+    <a href="#" onclick="showPage('info');closeMobile();return false;">Système</a>
+    <a href="#" onclick="showPage('actualites');closeMobile();return false;">Actualités</a>
+    <a href="#" onclick="showPage('fonctionnement');closeMobile();return false;">Fonctionnement</a>
+    <a href="#" onclick="showPage('equipe');closeMobile();return false;">Équipe</a>
+    <a href="#" onclick="showPage('faq');closeMobile();return false;">FAQ</a>
+    <a href="#" onclick="showPage('recrutement');closeMobile();return false;">Recrutement</a>
     <a href="https://discord.gg/yUKpUMdRXm" target="_blank" class="discord-link">Discord ↗</a>
   </div>
 
   <!-- NAV -->
   <nav>
-    <a href="#" style="text-decoration:none;" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+    <a href="#" style="text-decoration:none;" onclick="showPage('home');return false;">
       <div class="nav-logo">
         HORIZON<span> & BIOTECH</span>™
         <div style="font-size:.55rem;letter-spacing:.18em;color:var(--muted);margin-top:.25rem;font-weight:400;">FlashBack FA</div>
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#missions">Missions</a></li>
-      <li><a href="#about">À Propos</a></li>
-      <li><a href="#info">Système</a></li>
-      <li><a href="#actualites">Actualités</a></li>
-      <li><a href="#fonctionnement">Fonctionnement</a></li>
-      <li><a href="#equipe">Équipe</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#recrutement">Recrutement</a></li>
+      <li><a href="#" onclick="showPage('home');return false;">Accueil</a></li>
+      <li><a href="#" onclick="showPage('missions');return false;">Missions</a></li>
+      <li><a href="#" onclick="showPage('about');return false;">À Propos</a></li>
+      <li><a href="#" onclick="showPage('info');return false;">Système</a></li>
+      <li><a href="#" onclick="showPage('actualites');return false;">Actualités</a></li>
+      <li><a href="#" onclick="showPage('fonctionnement');return false;">Fonctionnement</a></li>
+      <li><a href="#" onclick="showPage('equipe');return false;">Équipe</a></li>
+      <li><a href="#" onclick="showPage('faq');return false;">FAQ</a></li>
+      <li><a href="#" onclick="showPage('recrutement');return false;">Recrutement</a></li>
       <li><a href="https://discord.gg/yUKpUMdRXm" target="_blank" style="color:var(--violet);">Discord ↗</a></li>
     </ul>
     <div class="nav-badge">RUN ACTIF</div>
@@ -1879,6 +1892,45 @@
       el.style.transition = 'opacity .5s ease, transform .5s ease, border-color .3s, box-shadow .3s';
       observer.observe(el);
     });
+    // ─── PAGE SYSTEM ─────────────────────────────────────────
+    const PAGES = ['missions','about','info','actualites','fonctionnement','equipe','galerie','faq','recrutement'];
+
+    function showPage(id) {
+      // Cacher tout
+      PAGES.forEach(p => {
+        const el = document.getElementById(p);
+        if (el) el.classList.remove('page-active');
+      });
+      const hero  = document.querySelector('.hero');
+      const stats = document.querySelector('.stats-bar');
+      hero?.classList.remove('page-active');
+      stats?.classList.remove('page-active');
+
+      window.scrollTo(0, 0);
+
+      if (id === 'home') {
+        hero?.classList.add('page-active');
+        stats?.classList.add('page-active');
+      } else {
+        const el = document.getElementById(id);
+        if (el) {
+          el.classList.add('page-active');
+          el.querySelectorAll('.mission-card, .feature, .info-card, .faq-item, .news-card, .team-card').forEach(c => {
+            c.style.opacity = '0';
+            c.style.transform = 'translateY(20px)';
+            setTimeout(() => { c.style.opacity = '1'; c.style.transform = 'none'; }, 50);
+          });
+        }
+      }
+
+      // Onglet actif en violet
+      document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(a => a.style.color = '');
+      document.querySelectorAll(`.nav-links a[onclick*="'${id}'"], .mobile-menu a[onclick*="'${id}'"]`).forEach(a => a.style.color = 'var(--violet)');
+    }
+
+    // Afficher l'accueil au chargement
+    showPage('home');
+
   </script>
 </body>
 </html>
