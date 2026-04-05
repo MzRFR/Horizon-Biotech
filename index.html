@@ -734,7 +734,7 @@
 
     /* ─── STARS ────────────────────────────────────────── */
     #particles {
-      position: fixed; inset: 0; z-index: 0;
+      position: fixed; inset: 0; z-index: 3;
       pointer-events: none; overflow: hidden;
     }
     .particle {
@@ -1107,7 +1107,9 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .page-active { animation: page-in .35s ease both; }
-    section.page-active { padding-bottom: 2rem; min-height: calc(100vh - 80px); }
+    section.page-active { padding-bottom: 2rem; min-height: calc(100vh - 80px); position: relative; z-index: 2; }
+    .hero.page-active { position: relative; z-index: 2; }
+    .stats-bar.page-active { position: relative; z-index: 2; }
     body { display: flex; flex-direction: column; min-height: 100vh; }
     footer { margin-top: auto; }
 
