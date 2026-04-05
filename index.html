@@ -663,11 +663,9 @@
     /* ─── FOOTER ────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 1rem 4rem;
+      padding: 2rem 4rem;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .footer-left { font-size: .6rem; }
-    .footer-right { font-size: .55rem; }
     .footer-left {
       font-family: 'Orbitron', monospace;
       font-size: .7rem;
@@ -734,7 +732,7 @@
 
     /* ─── STARS ────────────────────────────────────────── */
     #particles {
-      position: fixed; inset: 0; z-index: 3;
+      position: fixed; inset: 0; z-index: 0;
       pointer-events: none; overflow: hidden;
     }
     .particle {
@@ -1097,22 +1095,6 @@
     }
     @media(max-width:900px) { .news-grid { grid-template-columns: 1fr; } }
 
-    /* ─── PAGE SYSTEM ───────────────────────────────────── */
-    .hero, .stats-bar, section { display: none !important; }
-    .hero.page-active  { display: flex !important; }
-    .stats-bar.page-active { display: grid !important; }
-    section.page-active { display: block !important; }
-    @keyframes page-in {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .page-active { animation: page-in .35s ease both; }
-    section.page-active { padding-bottom: 2rem; min-height: calc(100vh - 80px); position: relative; z-index: 2; }
-    .hero.page-active { position: relative; z-index: 2; }
-    .stats-bar.page-active { position: relative; z-index: 2; }
-    body { display: flex; flex-direction: column; min-height: 100vh; }
-    footer { margin-top: auto; }
-
   </style>
 </head>
 <body>
@@ -1147,36 +1129,36 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#" onclick="showPage('home');closeMobile();return false;">Accueil</a>
-    <a href="#" onclick="showPage('missions');closeMobile();return false;">Missions</a>
-    <a href="#" onclick="showPage('about');closeMobile();return false;">À Propos</a>
-    <a href="#" onclick="showPage('info');closeMobile();return false;">Système</a>
-    <a href="#" onclick="showPage('actualites');closeMobile();return false;">Actualités</a>
-    <a href="#" onclick="showPage('fonctionnement');closeMobile();return false;">Fonctionnement</a>
-    <a href="#" onclick="showPage('equipe');closeMobile();return false;">Équipe</a>
-    <a href="#" onclick="showPage('faq');closeMobile();return false;">FAQ</a>
-    <a href="#" onclick="showPage('recrutement');closeMobile();return false;">Recrutement</a>
+    <a href="#missions" onclick="closeMobile()">Missions</a>
+    <a href="#about" onclick="closeMobile()">À Propos</a>
+    <a href="#info" onclick="closeMobile()">Système</a>
+    <a href="#actualites" onclick="closeMobile()">Actualités</a>
+    <a href="#fonctionnement" onclick="closeMobile()">Fonctionnement</a>
+    <a href="#equipe" onclick="closeMobile()">Équipe</a>
+    <a href="#faq" onclick="closeMobile()">FAQ</a>
+	<a href="#reglement" onclick="closeMobile()">Règlement</a>
+    <a href="#recrutement" onclick="closeMobile()">Recrutement</a>
     <a href="https://discord.gg/yUKpUMdRXm" target="_blank" class="discord-link">Discord ↗</a>
   </div>
 
   <!-- NAV -->
   <nav>
-    <a href="#" style="text-decoration:none;" onclick="showPage('home');return false;">
+    <a href="#" style="text-decoration:none;" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
       <div class="nav-logo">
         HORIZON<span> & BIOTECH</span>™
         <div style="font-size:.55rem;letter-spacing:.18em;color:var(--muted);margin-top:.25rem;font-weight:400;">FlashBack FA</div>
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#" onclick="showPage('home');return false;">Accueil</a></li>
-      <li><a href="#" onclick="showPage('missions');return false;">Missions</a></li>
-      <li><a href="#" onclick="showPage('about');return false;">À Propos</a></li>
-      <li><a href="#" onclick="showPage('info');return false;">Système</a></li>
-      <li><a href="#" onclick="showPage('actualites');return false;">Actualités</a></li>
-      <li><a href="#" onclick="showPage('fonctionnement');return false;">Fonctionnement</a></li>
-      <li><a href="#" onclick="showPage('equipe');return false;">Équipe</a></li>
-      <li><a href="#" onclick="showPage('faq');return false;">FAQ</a></li>
-      <li><a href="#" onclick="showPage('recrutement');return false;">Recrutement</a></li>
+      <li><a href="#missions">Missions</a></li>
+      <li><a href="#about">À Propos</a></li>
+      <li><a href="#info">Système</a></li>
+      <li><a href="#actualites">Actualités</a></li>
+      <li><a href="#fonctionnement">Fonctionnement</a></li>
+      <li><a href="#equipe">Équipe</a></li>
+      <li><a href="#faq">FAQ</a></li>
+	  <li><a href="#reglement">Règlement</a></li>
+      <li><a href="#recrutement">Recrutement</a></li>
       <li><a href="https://discord.gg/yUKpUMdRXm" target="_blank" style="color:var(--violet);">Discord ↗</a></li>
     </ul>
     <div class="nav-badge">RUN ACTIF</div>
@@ -1204,8 +1186,8 @@
       Trois objectifs critiques à accomplir. La mission ne tolère aucun échec.
     </p>
     <div class="hero-cta">
-      <a href="#" onclick="showPage('recrutement');return false;" class="btn-primary">POSTULER MAINTENANT</a>
-      <a href="#" onclick="showPage('missions');return false;" class="btn-ghost">VOIR LES MISSIONS</a>
+      <a href="#recrutement" class="btn-primary">POSTULER MAINTENANT</a>
+      <a href="#missions" class="btn-ghost">VOIR LES MISSIONS</a>
     </div>
   </section>
 
@@ -1664,6 +1646,62 @@
     </div>
   </section>
 
+  <!-- RÈGLEMENT -->
+  <section id="reglement" style="background:var(--bg-mid);">
+    <div style="max-width:860px;margin:0 auto;">
+      <div class="section-label">Entreprise</div>
+      <h2 class="section-title">RÈGLEMENT DE L'ENTREPRISE 🌕</h2>
+      <p class="section-desc">Merci de respecter les consignes suivantes et de les accepter avant votre prise de service.</p>
+
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--violet);border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">🚗 STATIONNEMENT</div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">Un garage est prévu pour vos véhicules. Merci de ne pas vous garer n'importe où.</p>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">🧼 DÉCONTAMINATION</div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">Un délai de <strong style="color:var(--cyan);">10 secondes</strong> pour la décontamination est requis avant toute entrée dans le laboratoire.</p>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--violet);border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">👨‍🚀 TENUE OBLIGATOIRE</div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">Assurez-vous d'avoir votre tenue complète avant le début de vos tâches.</p>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid rgba(239,68,68,.3);border-left:3px solid #ef4444;border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">🚫 TRANSPORT INTERDIT</div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">Tout ce qui est récolté sur la lune ne doit en aucun cas être ramené sur LS.</p>
+          <div style="margin-top:.6rem;display:flex;align-items:center;gap:.5rem;color:var(--green);font-size:.85rem;">➡️ <span>Exception : seuls les <strong>crédits Horizon</strong> sont autorisés.</span></div>
+          <div style="margin-top:.8rem;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:2px;padding:.6rem 1rem;font-size:.8rem;color:#f87171;">⚠️ Toute infraction sera considérée comme une faute grave pouvant entraîner un renvoi.</div>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid rgba(239,68,68,.3);border-left:3px solid #ef4444;border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">📸 CONFIDENTIALITÉ</div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">Il est strictement interdit de prendre des photos ou des vidéos au sein de l'entreprise ou sur la lune.</p>
+          <div style="margin-top:.8rem;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:2px;padding:.6rem 1rem;font-size:.8rem;color:#f87171;">⚠️ Toute infraction sera considérée comme une faute grave pouvant entraîner un renvoi.</div>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">⛏️ ORGANISATION DU MINAGE</div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">Si vous êtes plusieurs à récolter du minerai lunaire, organisez-vous correctement. La grotte est suffisamment grande pour tout le monde, inutile de se gêner.</p>
+        </div>
+
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:3px;padding:1.5rem 2rem;">
+          <div style="font-family:'Orbitron',monospace;font-size:.8rem;font-weight:600;color:#fff;margin-bottom:.5rem;">📦 VENTE HORIZON CREDITS </div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.7;">L'achat et la revente de Crédit Horizon sont complètement interdits.</p>
+          <div style="margin-top:.6rem;display:flex;align-items:center;gap:.5rem;color:#f87171;font-size:.85rem;">❌ <span> Toute infraction sera considérée comme une faute grave pouvant entraîner un renvoi.</span></div>
+        </div>
+
+        <div style="background:rgba(123,63,228,.08);border:1px solid var(--purple-dim);border-radius:3px;padding:1.2rem 2rem;text-align:center;color:var(--muted);font-size:.88rem;font-style:italic;">
+          Merci de respecter ces règles pour assurer une bonne organisation et une expérience agréable à tous 🌌
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- RECRUITMENT -->
   <section id="recrutement">
     <div class="recruit-wrapper" style="text-align:center;">
@@ -1899,45 +1937,6 @@
       el.style.transition = 'opacity .5s ease, transform .5s ease, border-color .3s, box-shadow .3s';
       observer.observe(el);
     });
-    // ─── PAGE SYSTEM ─────────────────────────────────────────
-    const PAGES = ['missions','about','info','actualites','fonctionnement','equipe','galerie','faq','recrutement'];
-
-    function showPage(id) {
-      // Cacher tout
-      PAGES.forEach(p => {
-        const el = document.getElementById(p);
-        if (el) el.classList.remove('page-active');
-      });
-      const hero  = document.querySelector('.hero');
-      const stats = document.querySelector('.stats-bar');
-      hero?.classList.remove('page-active');
-      stats?.classList.remove('page-active');
-
-      window.scrollTo(0, 0);
-
-      if (id === 'home') {
-        hero?.classList.add('page-active');
-        stats?.classList.add('page-active');
-      } else {
-        const el = document.getElementById(id);
-        if (el) {
-          el.classList.add('page-active');
-          el.querySelectorAll('.mission-card, .feature, .info-card, .faq-item, .news-card, .team-card').forEach(c => {
-            c.style.opacity = '0';
-            c.style.transform = 'translateY(20px)';
-            setTimeout(() => { c.style.opacity = '1'; c.style.transform = 'none'; }, 50);
-          });
-        }
-      }
-
-      // Onglet actif en violet
-      document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(a => a.style.color = '');
-      document.querySelectorAll(`.nav-links a[onclick*="'${id}'"], .mobile-menu a[onclick*="'${id}'"]`).forEach(a => a.style.color = 'var(--violet)');
-    }
-
-    // Afficher l'accueil au chargement
-    showPage('home');
-
   </script>
 </body>
 </html>
