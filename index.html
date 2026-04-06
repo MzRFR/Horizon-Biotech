@@ -282,7 +282,7 @@
     }
 
     /* ─── SECTIONS ──────────────────────────────────────── */
-    section { padding: 6rem 4rem; }
+    section { padding: 6rem 4rem; min-height: 88vh; }
 
     .section-label {
       font-family: 'Orbitron', monospace;
@@ -540,126 +540,6 @@
     .recruit-notice-icon { font-size: 1.5rem; }
     .recruit-notice strong { color: var(--violet); }
 
-    .recruit-form {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .form-header {
-      padding: 1.5rem 2rem;
-      border-bottom: 1px solid var(--border);
-      background: rgba(123,63,228,.06);
-      display: flex; align-items: center; gap: .8rem;
-    }
-    .form-header-dot { width: 8px; height: 8px; background: var(--violet); border-radius: 50%; animation: blink 1.4s infinite; }
-    .form-header-title {
-      font-family: 'Orbitron', monospace;
-      font-size: .75rem;
-      letter-spacing: .2em;
-      color: var(--violet);
-    }
-
-    .form-body { padding: 2.5rem; }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-    .form-group { margin-bottom: 1.5rem; }
-
-    .form-label {
-      display: block;
-      font-family: 'Orbitron', monospace;
-      font-size: .6rem;
-      letter-spacing: .2em;
-      color: var(--muted);
-      margin-bottom: .6rem;
-    }
-    .form-label::before { content: '// '; color: var(--purple); }
-
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      background: rgba(255,255,255,.03);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: 'Exo 2', sans-serif;
-      font-size: .9rem;
-      padding: .85rem 1.1rem;
-      border-radius: 2px;
-      outline: none;
-      transition: border-color .3s, box-shadow .3s;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 3px rgba(123,63,228,.12);
-    }
-    .form-select { cursor: pointer; }
-    .form-select option { background: var(--bg-mid); }
-    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
-
-    .form-footer {
-      padding: 1.5rem 2.5rem;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(123,63,228,.04);
-    }
-
-    .form-note {
-      font-size: .75rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    .btn-submit {
-      font-family: 'Orbitron', monospace;
-      font-size: .7rem;
-      letter-spacing: .2em;
-      padding: 1rem 2.5rem;
-      background: var(--purple);
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-      transition: background .3s, box-shadow .3s;
-      position: relative;
-    }
-    .btn-submit:hover {
-      background: var(--violet);
-      box-shadow: 0 0 30px rgba(168,85,247,.4);
-    }
-    .btn-submit:disabled {
-      opacity: .5; cursor: not-allowed;
-      background: var(--purple-dim);
-    }
-
-    /* Status messages */
-    .form-status {
-      margin-top: 1.5rem;
-      padding: 1.2rem 1.5rem;
-      border-radius: 3px;
-      font-family: 'Orbitron', monospace;
-      font-size: .7rem;
-      letter-spacing: .1em;
-      display: none;
-    }
-    .form-status.success {
-      display: block;
-      background: rgba(34,197,94,.1);
-      border: 1px solid rgba(34,197,94,.3);
-      color: var(--green);
-    }
-    .form-status.error {
-      display: block;
-      background: rgba(239,68,68,.1);
-      border: 1px solid rgba(239,68,68,.3);
-      color: #f87171;
-    }
-    .form-status.loading {
-      display: block;
-      background: rgba(123,63,228,.1);
-      border: 1px solid var(--purple-dim);
-      color: var(--violet);
-    }
-
     /* ─── FOOTER ────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -852,36 +732,6 @@
     }
     .popup-desc { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1.5rem; }
 
-    /* ─── FAQ ──────────────────────────────────────────── */
-    .faq-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      margin-bottom: .8rem;
-      overflow: hidden;
-      transition: border-color .3s;
-    }
-    .faq-item:hover { border-color: var(--purple); }
-    .faq-q {
-      width: 100%; text-align: left;
-      padding: 1.2rem 1.5rem;
-      background: none; border: none;
-      color: var(--text);
-      font-family: 'Orbitron', monospace;
-      font-size: .75rem; letter-spacing: .08em;
-      cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .faq-q .faq-arrow { transition: transform .3s; color: var(--violet); }
-    .faq-item.open .faq-arrow { transform: rotate(180deg); }
-    .faq-a {
-      max-height: 0; overflow: hidden;
-      transition: max-height .4s ease, padding .3s;
-      color: var(--muted); font-size: .88rem; line-height: 1.7;
-      padding: 0 1.5rem;
-    }
-    .faq-item.open .faq-a { max-height: 200px; padding: 0 1.5rem 1.2rem; }
-
     /* ─── RESPONSIVE ────────────────────────────────────── */
     @media(max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
@@ -891,7 +741,6 @@
       .stats-bar { grid-template-columns: repeat(2,1fr); }
       #about { grid-template-columns: 1fr; }
       .info-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
       .missions-grid { padding: 0 .5rem; }
       .mission-card { flex-direction: column; gap: 1rem; }
@@ -903,8 +752,6 @@
       .orbit-ring:nth-child(3), .orbit-ring:nth-child(4) { display: none; }
       .remun-card, .droid-card { flex-direction: column; gap: .8rem; }
       .recruit-wrapper { padding: 0 .5rem; }
-      .form-footer { flex-direction: column; gap: 1rem; align-items: stretch; text-align: center; }
-      .btn-submit { clip-path: none; border-radius: 2px; width: 100%; }
       #fonctionnement div[style*="grid-template-columns:repeat(2,1fr)"] { grid-template-columns: 1fr !important; }
       .corner { display: none; }
       .stat-num { font-size: 1.4rem; }
@@ -1731,86 +1578,6 @@
   </footer>
 
   <script>
-    // ─── WEBHOOK DISCORD ────────────────────────────────────
-    // ⚠️ REMPLACEZ CETTE URL PAR VOTRE VRAI WEBHOOK DISCORD
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1486471535769292843/HprLcbtdykLU_ufv_STNoi0Uqt26jv9b7V1ZtBsZ9pwZA87o-cwy-4S5yYO7rMJwM37b";
-
-    async function submitForm() {
-      const nomrp    = document.getElementById('f-nomrp').value.trim();
-      const id       = document.getElementById('f-id').value.trim();
-      const phone    = document.getElementById('f-phone').value.trim();
-      const poste    = document.getElementById('f-poste').value.trim();
-      const mission  = document.getElementById('f-mission').value;
-      const motiv    = document.getElementById('f-motivation').value.trim();
-      const statusEl = document.getElementById('form-status');
-      const btn      = document.getElementById('btn-submit');
-
-      if (!nomrp || !id) {
-        statusEl.className = 'form-status error';
-        statusEl.textContent = '⚠ ERREUR — Nom RP et ID obligatoires.';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'TRANSMISSION EN COURS...';
-      statusEl.className = 'form-status loading';
-      statusEl.textContent = '📡 Envoi de la candidature vers le serveur...';
-
-      const embed = {
-        embeds: [{
-          title: "🚀 NOUVELLE CANDIDATURE — HORIZON & BIOTECH",
-          color: 0x7b3fe4,
-          fields: [
-            { name: "👤 Nom RP",               value: nomrp || "Non renseigné",  inline: true  },
-            { name: "🪪 ID",                    value: id    || "Non renseigné",  inline: true  },
-            { name: "📞 Numéro de téléphone",   value: phone || "Non renseigné",  inline: false },
-            { name: "🎯 Poste visé",            value: poste || "Non renseigné",  inline: false },
-            { name: "🌙 Mission préférée",       value: mission || "Non précisé",  inline: false },
-          ],
-          footer: { text: "Horizon & Biotech™ — Luna-Run // Operation Terrain" },
-          timestamp: new Date().toISOString()
-        }]
-      };
-
-      const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(DISCORD_WEBHOOK_URL);
-
-      try {
-        // 1er message : embed avec les infos
-        const res1 = await fetch(proxyUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(embed)
-        });
-        if (!res1.ok) throw new Error('Embed error ' + res1.status);
-
-        // 2ème message : motivations en texte libre (pas de limite)
-        const motivText = `📋 **MOTIVATIONS de ${nomrp || "l'opérateur"} :**\n\n${motiv || "Non renseigné"}`;
-        const res2 = await fetch(proxyUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: motivText })
-        });
-        if (!res2.ok) throw new Error('Motiv error ' + res2.status);
-
-        if (res1.ok && res2.ok) {
-          statusEl.className = 'form-status success';
-          statusEl.textContent = '✅ CANDIDATURE TRANSMISE — Notre équipe vous contactera sur Discord.';
-          document.getElementById('f-nomrp').value = '';
-          document.getElementById('f-id').value = '';
-          document.getElementById('f-phone').value = '';
-          document.getElementById('f-poste').value = '';
-          document.getElementById('f-mission').value = '';
-          document.getElementById('f-motivation').value = '';
-          btn.textContent = 'ENVOYÉE ✓';
-        }
-      } catch(e) {
-        statusEl.className = 'form-status error';
-        statusEl.textContent = '❌ ERREUR DE TRANSMISSION — Configurez votre webhook Discord ou contactez-nous directement sur le serveur.';
-        btn.disabled = false;
-        btn.textContent = 'ENVOYER LA CANDIDATURE';
-      }
-    }
-
     // ─── LOADER ─────────────────────────────────────────────
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -1820,44 +1587,28 @@
 
     // ─── STARS ──────────────────────────────────────────────
     const particlesContainer = document.getElementById('particles');
-    // Étoiles fixes qui scintillent
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 55; i++) {
       const p = document.createElement('div');
       p.className = 'particle';
-      const size = Math.random() * 2.5 + .5;
+      const size = Math.random() * 2 + .5;
       p.style.left = Math.random() * 100 + 'vw';
       p.style.top  = Math.random() * 100 + 'vh';
       p.style.width = p.style.height = size + 'px';
-      p.style.animationDuration = (Math.random() * 4 + 2) + 's';
-      p.style.animationDelay = (Math.random() * 6) + 's';
-      // Couleur : blanc, bleu pâle ou violet pâle
-      const colors = ['#ffffff','#c8d8ff','#e0d0ff','#a8c8ff'];
+      p.style.animationDuration = (Math.random() * 5 + 3) + 's';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      const colors = ['#ffffff','#c8d8ff','#e0d0ff'];
       p.style.background = colors[Math.floor(Math.random() * colors.length)];
-      if (size > 1.8) p.style.boxShadow = '0 0 ' + (size*2) + 'px ' + p.style.background;
       particlesContainer.appendChild(p);
     }
-    // Étoiles filantes
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       const s = document.createElement('div');
       s.className = 'star-shoot';
       s.style.top  = Math.random() * 60 + 'vh';
       s.style.left = '0';
-      s.style.animationDuration = (Math.random() * 4 + 3) + 's';
-      s.style.animationDelay = (Math.random() * 15 + 5) + 's';
+      s.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      s.style.animationDelay = (Math.random() * 20 + 8) + 's';
       particlesContainer.appendChild(s);
     }
-
-    // ─── SCROLL PROGRESS ────────────────────────────────────
-    window.addEventListener('scroll', () => {
-      const el = document.getElementById('scroll-progress');
-      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
-      el.style.width = pct + '%';
-
-      // Back to top
-      const btn = document.getElementById('back-top');
-      btn.style.opacity = window.scrollY > 400 ? '1' : '0';
-      btn.style.pointerEvents = window.scrollY > 400 ? 'auto' : 'none';
-    });
 
     // ─── STAT COUNTER ───────────────────────────────────────
     function animateCounter(el, target, suffix = '') {
