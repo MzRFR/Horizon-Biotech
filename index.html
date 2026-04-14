@@ -942,6 +942,43 @@
     }
     @media(max-width:900px) { .news-grid { grid-template-columns: 1fr; } }
 
+    /* ─── LIGHTBOX ──────────────────────────────────────── */
+    #lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 50000;
+      background: rgba(6,4,15,.95);
+      align-items: center; justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw; max-height: 85vh;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      box-shadow: 0 0 60px rgba(123,63,228,.3);
+      animation: lb-in .2s ease;
+    }
+    @keyframes lb-in { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
+    #lb-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: rgba(123,63,228,.2); border: 1px solid var(--border);
+      color: var(--text); font-size: 1.4rem;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; cursor: pointer;
+      transition: background .2s;
+    }
+    #lb-close:hover { background: var(--purple); }
+    #lb-label {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      font-family: 'Orbitron', monospace;
+      font-size: .65rem; letter-spacing: .2em;
+      color: var(--muted); background: rgba(6,4,15,.8);
+      padding: .4rem 1rem; border-radius: 2px;
+      border: 1px solid var(--border);
+    }
+    .gallery-item { cursor: zoom-in; }
+
   </style>
 </head>
 <body>
@@ -958,6 +995,13 @@
 
   <!-- PARTICLES -->
   <div id="particles"></div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <button id="lb-close" onclick="closeLightbox()">✕</button>
+    <img id="lb-img" src="" alt="">
+    <div id="lb-label"></div>
+  </div>
 
   <!-- BACK TO TOP -->
   <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
@@ -1428,28 +1472,27 @@
       <h2 class="section-title">GALERIE — BASE LUNAIRE</h2>
       <p class="section-desc">Aperçu des installations et des opérations sur le terrain.</p>
       <div class="gallery-grid">
-        <div class="gallery-item">
-          <!-- IMAGE : remplace le lien ci-dessous par l'URL du screenshot -->
+        <div class="gallery-item" onclick="openLightbox('https://i.imgur.com/uR5QgH9.png','SURFACE LUNAIRE')">
           <img src="https://i.imgur.com/uR5QgH9.png" alt="Surface Lunaire" onload="this.classList.add('loaded')">
           <div class="gallery-placeholder"></div><div class="gallery-label">SURFACE LUNAIRE</div>
         </div>
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox('https://i.imgur.com/sgb9nXM.png','DROID OPÉRATIONNEL')">
           <img src="https://i.imgur.com/sgb9nXM.png" alt="Droid Opérationnel" onload="this.classList.add('loaded')">
           <div class="gallery-placeholder"></div><div class="gallery-label">DROID OPÉRATIONNEL</div>
         </div>
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox('https://i.imgur.com/CwPM7ut.png','SALLE DE CONTRÔLE')">
           <img src="https://i.imgur.com/CwPM7ut.png" alt="Salle de Contrôle" onload="this.classList.add('loaded')">
           <div class="gallery-placeholder"></div><div class="gallery-label">SALLE DE CONTRÔLE</div>
         </div>
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox('https://i.imgur.com/f182idz.png','EXTRACTION MINERAIS')">
           <img src="https://i.imgur.com/f182idz.png" alt="Extraction Minerais" onload="this.classList.add('loaded')">
           <div class="gallery-placeholder"></div><div class="gallery-label">EXTRACTION MINERAIS</div>
         </div>
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox('https://i.imgur.com/UZeLFaG.png','RÉPARATION ANTENNE')">
           <img src="https://i.imgur.com/UZeLFaG.png" alt="Réparation Antenne" onload="this.classList.add('loaded')">
           <div class="gallery-placeholder"></div><div class="gallery-label">RÉPARATION ANTENNE</div>
         </div>
-        <div class="gallery-item">
+        <div class="gallery-item" onclick="openLightbox('https://i.imgur.com/T6OdDKy.png','ZONE DE TRANSFORMATION')">
           <img src="https://i.imgur.com/T6OdDKy.png" alt="Zone de Transformation" onload="this.classList.add('loaded')">
           <div class="gallery-placeholder"></div><div class="gallery-label">ZONE DE TRANSFORMATION</div>
         </div>
@@ -1686,6 +1729,19 @@
       el.style.transition = 'opacity .5s ease, transform .5s ease, border-color .3s, box-shadow .3s';
       observer.observe(el);
     });
+    // ─── LIGHTBOX ────────────────────────────────────────────
+    function openLightbox(src, label) {
+      document.getElementById('lb-img').src = src;
+      document.getElementById('lb-label').textContent = label;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
   </script>
 </body>
 </html>
